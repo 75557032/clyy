@@ -1,0 +1,309 @@
+﻿一.安装wine：下载wine，http://www.winehq.org/
+1{
+<1>tar jxvf wine-x.x.x.x.tar.bz2
+<2>cd wine-x.x.x.x
+<3>./configure 64位的话，加--enable-win64
+<4>make
+<5>make install
+注：找不到wine是因为64下的名字叫wine64，加个名为wine的链接到wine64
+}本机使用
+2{
+#yum --enablerepo epel list wine\*
+#yum --enablerepo epel install wine
+}参考
+3{
+#yum --enablerepo rpmforge list wine\*
+}参考
+
+二.安装谷歌浏览器
+1{
+<1>cp google-chrome.repo /etc/yum.repos.d/
+<2>yum install google-chrome-stable --nogpgcheck
+<3>创建所有用户都可一增删改查权限的目录/root/.google_chrome/
+<4>vi /opt/google/chrome/google-chrome exec -a "$0" "$HERE/chrome"  "$@" 加"--user-data-dir=/home/zyp/.config/google-chrome"
+}
+
+三.更新163yum源http://mirrors.163.com/
+1{
+<1>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.back
+<2>cp CentOS6-Base-163.repo /etc/yum.repos.d/
+<3>yum makecache
+}
+
+四.解压tar文件
+1{
+<1>tar jxvf 文件 
+}
+
+五.android开发
+1{
+<1>下载adt-bundle-linux；
+<2>解压adt-bundle-linux
+<3>下载BabelLanguagePack-eclipse-zh_3.7.0.v20111128043401
+<4>解压BabelLanguagePack-eclipse-zh_3.7.0.v20111128043401，复制到adt解压目录/eclipse/dropins
+}
+
+六.安装nVidia驱动
+1{
+<1>wget http://cn.download.nvidia.com/XFree86/Linux-x86_64/280.13/NVIDIA-Linux-x86_64-310.19.run；
+<2>yum install kernel-devel kernel-headers gcc\* glibc\*glibc-\*
+<3>yum remove glx-utils
+<4>vi /etc/modprobe.d/blacklist.conf 增加blacklist nouveau
+<5>
+	第一步：把Nouveau驱动加入黑名单
+	修改/etc/modprobe.d/blacklist.conf文件，在里面加入blacklist nouveau
+	第二步：重新建立initramfs image文件
+	$mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname-r).img.bak
+	$dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
+	第三步：进入init 3安装Nvidia官方驱动
+	修改/etc/inittab，使系统开机进入init 3文本模式
+	id:3:initdefault:
+	重启后，root登录系统，可以看到在init3文本模式下字体明显变大，就是禁用nouveau了效果现在可以使用
+	lsmod| grep nouveau命令确认一下、确认没有加载nouveau。
+	添加执行权限，进行安装显卡驱动：
+	chmod +x NVIDIA-Linux-x86_64-270.41.19.run && ./NVIDIA-Linux-x86_64-310.19.run
+	第四步：修改/etc/inittab，使系统开机进入init 5图形界面模式
+	重启登陆后在系统- 首选项里可以看到NVIDIA X Server Settings菜单，可以查看基本信息及进行一些设置
+	或者用命令glxinfo或者glxgears检测是否成功安装即可。
+	id:5:initdefault:
+	第五步：安装3D桌面效果，并测试动态效果
+	yum install compiz compiz-devel
+	安装成功之后会出现“系统”-“首选项”-“桌面效果”菜单，然后一般会出现窗口标题栏消失的毛病，
+	需要按照如下修改：
+	vi /etc/X11/xorg.conf ：
+	Section "Screen"
+	# Removed Option"metamodes" "1280x800_60 +0+0"
+	# Removed Option"metamodes" "nvidia-auto-select +0+0"
+	Identifier"Screen0"
+	Device"Device0"
+	Monitor"Monitor0"
+	Option"AddARGBGLXVisuals""True"
+	DefaultDepth24
+	Option"TwinView" "0"
+	Option"metamodes" "1280x800+0+0"
+	SubSection"Display"
+	Depth24
+	EndSubSection
+	EndSection
+	里添加的是
+	Option"AddARGBGLXVisuals""True"
+
+	如果想屏蔽ctrl+alt+backspace，将以下行加到文件最后：
+	Section"ServerFlags"
+	Option"DontZap""yes"
+	EndSection
+	保存文件，注销当前帐户，从新登录以上变化就生效。
+}
+
+七.安装QQ2012
+1{
+yum install alsa-lib-devel.i686 alsa-lib-devel audiofile-devel.i686 audiofile-devel cups-devel.i686 cups-devel dbus-devel.i686 dbus-devel fontconfig-devel.i686 fontconfig-devel freetype.i686 freetype-devel.i686 freetype-devel giflib-devel.i686 giflib-devel lcms-devel.i686 lcms-devel libICE-devel.i686 libICE-devel libjpeg-turbo-devel.i686 libjpeg-turbo-devel libpng-devel.i686 libpng-devel libSM-devel.i686 libSM-devel libusb-devel.i686 libusb-devel libX11-devel.i686 libX11-devel libXau-devel.i686 libXau-devel libXcomposite-devel.i686 libXcomposite-devel libXcursor-devel.i686 libXcursor-devel libXext-devel.i686 libXext-devel libXi-devel.i686 libXi-devel libXinerama-devel.i686 libXinerama-devel libxml2-devel.i686 libxml2-devel libXrandr-devel.i686 libXrandr-devel libXrender-devel.i686 libXrender-devel libxslt-devel.i686 libxslt-devel libXt-devel.i686 libXt-devel libXv-devel.i686 libXv-devel libXxf86vm-devel.i686 libXxf86vm-devel mesa-libGL-devel.i686 mesa-libGL-devel mesa-libGLU-devel.i686 mesa-libGLU-devel ncurses-devel.i686 ncurses-devel openldap-devel.i686 openldap-devel openssl-devel.i686 openssl-devel zlib-devel.i686 pkgconfig sane-backends-devel.i686 sane-backends-devel xorg-x11-proto-devel glibc-devel.i686 prelink fontforge flex bison libstdc++-devel.i686 pulseaudio-libs-devel.i686 gnutls-devel.i686 libgphoto2-devel.i686 openal-soft-devel openal-soft-devel.i686 isdn4k-utils-devel.i686 gsm-devel.i686 samba-winbind libv4l-devel.i686 cups-devel.i686 libtiff-devel.i686 gstreamer-devel.i686 gstreamer-plugins-base-devel.i686 gettext-devel.i686 libmpg123-devel.i686
+解压压缩包，运行./setup.sh -i qq2012.tar.gz 
+}
+
+八.安装lazarus
+1{
+yum -y install gpm
+rpm -ivh fpc-2.6.0-2.fc17.x86_64.rpm 
+rpm -ivh fpc-doc-2.6.0-2.fc17.x86_64.rpm
+rpm -ivh fpc-src-2.6.0-2.fc17.x86_64.rpm 
+rpm -ivh lazarus-1.0.6-0.x86_64.rpm
+}
+
+九.安装CodeBlocks
+1{
+tar jxvf codeblocks-12.11-1.el6.x86_64.tar.bz2
+yum install wxBase wxGTK wxGTK-devel wxGTK-gl wxGTK-media
+yum install valgrind
+rpm -ivh codeblocks-12.11-1.el6.x86_64.rpm 
+rpm -ivh codeblocks-contrib-12.11-1.el6.x86_64.rpm
+rpm -ivh codeblocks-contrib-devel-12.11-1.el6.x86_64.rpm
+rpm -ivh codeblocks-devel-12.11-1.el6.x86_64.rpm
+svn checkout svn://svn.code.sf.net/p/codeblocks/code/trunk
+./bootstrap
+yum -y install hunspell-devel
+yum -y install gamin-devel
+./configure --with-contrib-plugins=all
+make
+make install
+}
+
+十.字符模式分辨率
+vi /boot/grub/grub.conf 加vga=ask看了后vga=0xXXX
+
+十一.重建xorg.conf
+Xorg -configure
+mv /root/xorg.conf.new xorg.conf
+
+十二.查看加载的驱动
+lsmod
+
+十三.查看硬件信息
+lspci
+
+十四.图像界面不能移动，关闭，最小化，没有标题栏
+yum install compiz compiz-devel compiz-gnome
+metacity
+
+十五.后台执行
+1.nohup 命令 &
+2.python proxy.py &> ss &
+  exit
+
+十六.输入输出定向
+>>,>输出
+<<,<输入
+
+十七.gevent安装
+python setup.py install
+
+十八.gcc编译安装
+mkdir gccout
+cd gccout
+../contrib/download_prerequisites
+../configure --prefix=/usr
+make
+make install
+
+十九.SDCC编译安装
+LD_LIBRARY_PATH=/usr/local/lib
+export LD_LIBRARY_PATH
+mkdir out
+cd out
+安装gputils
+yum -y install boost-devel
+../configure
+make
+make install
+
+二十.增加LD_LIBRARY_PATH全局变量及其他
+cd /etc/ld.so.conf.d/
+vi gcc.conf 增加路径后，运行程序可以找到
+ldconfig
+/etc/profile和/etc/environment是全局设置变量，修改后使用. /etc/xxx或source /etc/xxx生效，但是限制LD_LIBRARY_PATH
+
+二十一.没有LD_LIBRARY_PATH无法编译
+解决这一问题的另一方法是在编译的时候通过 -R<path> 选项指定 run-time path。
+1. 往/lib和/usr/lib里面加东西，是不用修改/etc/ld.so.conf的，但是完了之后要调一下ldconfig，不然这个library 会找不到
+2. 想往上面两个目录以外加东西的时候，一定要修改/etc/ld.so.conf，然后再调用ldconfig，不然也会找不到。
+比如安装了一个mysql到/usr/local/mysql，mysql有一大堆library在/usr/local/mysql/lib下 面，这时就需要在/etc/ld.so.conf下面加一行/usr/local/mysql/lib，保存过后ldconfig一下，新的 library才能在程序运行时被找到。
+3. 如果想在这两个目录以外放lib，但是又不想在/etc/ld.so.conf中加东西（或者是没有权限加东西）。那也可以，就是export一个全局变 量LD_LIBRARY_PATH，然后运行程序的时候就会去这个目录中找library。一般来讲这只是一种临时的解决方案，在没有权限或临时需要的时 候使用。
+4. ldconfig做的这些东西都与运行程序时有关，跟编译时一点关系都没有。编译的时候还是该加-L就得加，不要混淆了。
+5. 总之，就是不管做了什么关于library的变动后，最好都ldconfig一下，不然会出现一些意想不到的结果。不会花太多的时间，但是会省很多的事。
+LD_LIBRARY_PATH 这个环境变量是大家最为熟悉的，它告诉loader：在哪些目录中可以找到共享库。可以设置多个搜索目录，这些目录之间用冒号分隔开。在linux下，还 提供了另外一种方式来完成同样的功能，你可以把这些目录加到/etc/ld.so.conf中，然后调用ldconfig。当然，这是系统范围内全局有效 的，而环境变量只对当前shell有效。按照惯例，除非你用上述方式指明，loader是不会在当前目录下去找共享库的，正如shell不会在当前目前找 可执行文件一样。
+
+二十二.设置CentOS 解除自动待机休眠
+vi /etc/X11/xorg.conf
+
+       添加以下内容
+
+Section "ServerFlags"
+       Option "BlankTime" "0"
+       Option "StandbyTime" "0"
+       Option "SuspendTime" "0"
+       Option "OffTime" "0"
+EndSection
+
+Section "Monitor"
+       Option "DPMS" "false"
+EndSection
+
+重启Linux系统即可！
+
+
+二十三.时间设置
+1、设定系统时间
+date -s "2006-11-23"
+date -s "22:07:21" 
+date -s "2005-6-4 17:26"
+date 查看时间
+
+2、同步系统和BIOS时间
+hwclock --show 显示bios时间
+hwclock --systohc 将系统时间写入bios
+hwclock --hctosys 将bios时间写入系统
+hwclock --help 显示帮助
+
+二十四.安装飞鸽传输
+yum -y install gnome-panel-devel
+./configure --enable-systray
+make
+make install
+2524端口可信
+
+二十五.SDCC使用
+Codeblock--设置--编译器--其他--高级--其他--格式改为rel，保存，重启，OK。
+
+二十六.mplayers安装
+yum -y install yasm
+./configure --enable-gui --language=zh_CN
+下载皮肤
+mv 皮肤 /usr/local/share/mplayer/Skin/default
+
+二十七.强制断电后无法启动
+看check那个设备，我的这次是/dev/sda2
+fsck -y /dev/sda2
+
+二十八.vim使用
+:数字l，跳转到数字列
+数组gg，跳转到数字行
+G，最后一行
+gg，第一行
+dd,删除当前行
+
+二十九.制作iso
+1.提取光盘
+umount /dev/cdrom
+dd if=/dev/cdrom of=file.iso bs=1024
+2.文件夹制作
+mkisofs -r -o file.iso xxx/
+3.挂载iso
+mount -o loop file.iso /mnt
+4.生成一个MD5文件，执行
+md5sum file.iso > file.iso.md5
+
+三十.查看内存大小
+free -m
+
+三十一.查看内存条数量及大小
+dmidecode -t memory | grep Size
+
+三十二.armgcc编译
+cd binutils-2.23.2
+../configure --target=arm-eabi --prefix=/root/armgcc
+make all && make install
+cd gcc-4.8.0
+mkdir armout
+cd armout/
+../configure --target=arm-eabi --prefix=/root/armgcc --with-newlib --enable-languages=c,c++ --without-headers
+export PATH=$PATH:/root/armgcc/bin
+make all-gcc && make install-gcc
+cd newlib-2.0.0
+yum -y install texinfo
+export CC=gcc
+export cc=gcc
+./configure --target=arm-eabi --prefix=/root/armgcc --with-newlib
+make all && make install
+cd gcc-4.8.0/armout/
+make all && make install
+
+三十三.fpc编译
+先安装fpc。。。。。。
+makefile添加OVERRIDEVERSIONCHECK=1可以用其他版本编译
+make all && make install PREFIX=/soft/fpc/linux64 && make install sourceinstall PREFIX=/soft/fpc/linux64
+fpcmkcfg -d basepath=/soft/freepascal/lib/fpc/2.7.1/ -o /etc/fpc.cfg
+交叉编译
+make all CPU_TARGET=i386 && make install CPU_TARGET=i386  PREFIX=/soft/fpc/linux32
+
+
+三十四.lazarus编译
+make all && make bigide
+设置fpc源路径时提示版本为1时，把rtl和packages复制到一个目录，然后设置即可。
+
+
+
+
+
+
+
+
