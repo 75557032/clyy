@@ -1,0 +1,100 @@
+1.Qt信号槽参数的传递方式：
+	信号槽直连时，和函数传递一样，队列连接时，先对参数进行转储，然后传递，但是非内置类型，需要注册
+2.对象在栈申明后，什么时候释放：
+	对象申明后，在遇到“}”后释放，编译器不会判断后续有无使用而释放
+3.Qt事件参数的传递方式：
+	qApp->sendEvent(ui->graphicsView,&xx);
+	qApp->postEvent(ui->graphicsView,aa);
+	Qt不会进行任何参数转储
+4.Qt既然有了信号槽，为什么还要有事件：
+	信号槽是在绑定的时候指定同步或异步，事件是在发送的时候指定同步或异步
+5.什么是深赋值：
+	对象的内存拷贝
+6.什么是浅赋值：
+	对象的指针拷贝
+7.什么是隐性共享：
+	在赋值的时候，进行浅赋值，引用计数+1，进行修改时，引用计数-1，进行内存拷贝后修改，引用计数=0时，释放内存
+8.单元加载和释放时执行的函数(gcc)：
+	__attribute__((constructor)) void Initialize();
+	__attribute__((destructor)) void Cleanup();
+9.在隐性共享中，[]和at取值方式，那种效率高：
+	[]的方式要判断是读还是写，at不需要，所以at的效率更高
+10.Qt各容器的区别：
+	QLinkedList<T> 基于链表实现，元素存储空间不连续，提供基于index的对元素的快速访问，有较多插入操作，删除时建议使用。 类似于QList，但是一般通过迭代器访问元素，而不是index。
+	链表，添加删除操作多，读取少的情况下使用
+	QVector<T> 存储空间连续，插入操作性能不理想，访问性能佳。 数组的区别在于:可以随时改变大小。
+	数组，读取多，插入删除少的情况下使用
+	QList<T> 集合了QLinkedList<T>和QVector<T>的优点 具有很好的扩展性，比如QStringList。 QList::append()：后端插入 QList::prepend(): 前端插入 QList::insert()：按index插入
+	比较通用，中和
+	QStack<T> 继承于QVector，提供LIFO功能。 新增push(), pop(), 和 top()等。
+	栈，对最后元素频繁操作的情况下使用
+	QQueue<T> 继承于QList，提供FIFO功能。 新增enqueue(), dequeue(), and head().
+	队列，对第一个频繁操作的情况下使用
+	QSet<T> 提供对不可重复的集合的快速查找。
+	数据基本固定，查询很多的情况下使用
+	QMap<Key, T> 按照键排序，存储键值对。
+	QMultiMap<Key, T> 与QMap不同在于，一键可以对应多值。
+	QHash<Key, T> 与QMap类似，不同之处在于，对于元素查找，利用hash函数进行，并且元素并没有按照键值排序。
+	QMultiHash<Key, T> 与QHash的不同之处在于，可以一键对应多值。
+11.Timer是否可重入：
+	单线程情况下，不会重入，除非内部进行消息循环处理
+12.C++如何申明类成员函数：
+	typedef void (A::*xxx)(int);
+13.C++中强制类型转换的方式：
+	支持C系列的转换(type)xxx；
+	类似C系列，什么都不检查：reinterpret_cast
+	编译期间进行检查：static_cast
+	编译期间+运行期间进行检查：dynamic_cast，运行期间转换失败，返回NULL
+	打破常量不能修改的转换：const_cast
+14.Qt中postEvent中传递指针，对象何时释放
+	Qt会在分发完成后，自动释放，不用手动释放，但是sendEvent需要自己释放
+15.Qt中QThread中的run函数，是否运行完就结束
+	run中调用了消息循环的exec，不接收到quit是不会跳出的
+16.Qt中QObject::movetothread(xx)后，槽函数在哪个线程执行
+	槽函数在xx线程中执行
+17.Qt中直连和队列连接时，槽函数在哪个线程执行
+	直接连接(Direct Connection)
+		当信号发射时，槽函数将直接被调用。
+		无论槽函数所属对象在哪个线程，槽函数都在发射信号的线程内执行。
+	队列连接(Queued Connection)
+		当控制权回到接受者所依附线程的事件循环时，槽函数被调用。
+		槽函数在接收者所依附线程执行。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
