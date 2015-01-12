@@ -1,0 +1,158 @@
+设备查看：
+lsmod命令查看设备；
+
+网卡设置：
+ifconfig eth0 IP设置IP；
+编辑/etc/sysconfig/network-scripts/ifcfg-eth[x]文件，详细设置网卡
+ONBOOT="yes"开机加载
+service network start使网卡配置有效
+
+服务开机启动：
+chkconfig xxx on 开机启动服务
+chkconfig xxx off 关闭开机启动服务
+chkconfig –list 查看开机服务列表
+
+yum源更换：
+vi /etc/yum.repos.d/CentOS-Base.repo
+注释所有的mirrorlist,放开baseurl，修改mirror.centos.org地址为mirrors.163.com
+最好先检查是否安装wget
+yum -y install wget
+wget http://mirrors.163.com/.help/CentOS6-Base-163.repo
+mv CentOS6-Base-163.repo CentOS-Base.repo
+yum makecache
+
+系统更新(更新所有可以升级的rpm包,包括kernel)
+yum -y update
+
+检查可更新的rpm包
+yum check-update
+
+更新所有的rpm包
+yum update
+
+安装桌面
+yum -y groupinstall Desktop 
+yum -y groupinstall "X Window System" 
+yum -y groupinstall "Chinese Support" 
+
+centos6.3init 5模式进入是中文，但是在终端模式下用startx命令进去却是英文：
+在$home目录下缺少一个叫.i18n的文件，里面的变量应为saved_lang在这个里面指定后，startx也为英文。
+
+解压缩
+tar -cjf all.tar.bz2 *.jpg 
+这条命令是将所有.jpg的文件打成一个tar包，并且将其用bzip2压缩，生成一个 bzip2压缩过的包，包名为all.tar.bz2 
+tar -xjf all.tar.bz2 
+这条命令是将上面产生的包解开。
+
+让终端支持中文
+
+编译升级内核
+<uname -r>
+<yum install ncurses-devel>
+<yum install make >
+<yum install perl>
+<cp 内核 /usr/src>
+<tar -jxvf 内核>
+<cd 内核>
+<make mrproper> 第一次配置使用
+<make clean>     以后或第二次配置使用的命令
+<make menuconfig> 设置编译选项，选择本地文件系统语言为中文
+<make dep> 设定依赖关系
+<make bzImage> 压缩内核，当然也可以直接<make>，多核的话用<make -j 数字> 开多线程
+<make modules> 编译内核模块
+<make modules_install> 安装内核模块
+<make install> 自动安装
+cp System.map /boot/System.map-2.6.30.10
+cp arch/x86/boot/bzImage /boot/vmlinuz-2.6.30.10 ----文件是配置内核产生的文件。
+cp .config /boot/config-2.6.30.10 ---建议设置档案也备份    
+cd /boot
+new-kernel-pkg --mkinitrd --depmod --install 2.6.30.10 
+    (自动生成initrd-2.6.30.10.img 文件。并且自动修改/boot/grep/menu.lst文件 )
+
+mkinitrd initrd-2.6.30.10.img 2.6.30.10
+    (只生成initrd-2.6.30.10文件。需要手动更改/boot/grep/menu.lst文件)
+
+修改grub或lilo
+vi /boot/grub/menu.lst
+
+title CentOS (2.6.30.10)
+        root (hd0,0)
+        kernel /vmlinuz-2.6.30.10 ro root=/dev/VolGroup00/LogVol00
+        initrd /initrd-2.6.30.10.img
+http://www.huomo.cn/os/article-1177f.html
+http://www.linuxidc.com/Linux/2010-09/28529.htm
+
+基本操作
+mkdir
+rmdir
+mount -t sbmfs xxx /ddd
+umount /ddd
+fuser -vm /usr/local/  查看使用的进程
+fuser -km 加i参数的话，会出现交互式 干掉使用的进程
+
+yum install kernel-devel   
+yum install gcc
+sh ./VBoxLinuxAdditions-x86.run安装VBox的增强工具
+rpm -qa |grep ppp 检查包是否存在
+rpm -ivh xxx 安装包
+
+安装pppoe server
+yum -y install ppp
+yum -y install rp-pppoe
+vi /etc/ppp/options
+	#lock
+	local
+vi /etc/ppp/pppoe-server-options
+	require-chap
+	lcp-echo-interval 10
+	lcp-echo-failure 5
+	ms-dns 8.8.8.8
+	192.168.1.2:192.168.1.200
+	netmask 255.255.255.255
+vi /etc/ppp/chap-secrets
+用户名 * 密码 ip（*为随便）
+pppoe-server -I eth0 -L 192.168.1.3 -R 192.168.1.4 -N (数字，同时连接数量)
+echo 1 > /proc/sys/net/ipv4/ip_forward
+iptables -t net -A POSTROUTING -o eth1 -j MASQUERADE -s 0/0
+service iptables save
+
+
+
+
+
+
+
+编写SHELL
+1.echo $SHELL 确定shell版本
+2.vi ss.sh
+#!/bin/bash   依据第一条看到的
+命令1
+if [ "" = "" ]; then
+else
+fi
+:x
+修改自windows的话:set fileformat=unix
+chmod +x ss.sh
+./ss.sh
+
+
+
+ % cd /usr/bin 
+ % ln -s ${destdir}/bin/gcc gcc34 
+ % ln -s ${destdir}/bin/g++ g++34 
+ % ln -s ${destdir}/bin/gcj gcj34 
+
+
+
+
+
+
+../src/binutils-2.19.1/configure --target=arm-eabi --prefix=/usr/local/ecos/gnutools -v 2>&1 | tee configure.out
+make -w all 2>&1 | tee make.out
+make install
+export PATH=/usr/local/ecos/gnutools/bin:$PATH 
+../src/gcc-4_4-branch/configure --target=arm-eabi --prefix=/usr/local/ecos/gnutools --without-headers --with-newlib --with-gnu-ar --with-gnu-as --with-gnu-ld  --enable-languages=c,c++ -v 2>&1 | tee configure.out
+make -w all-gcc 2>&1 | tee make.out
+make install-gcc
+
+
