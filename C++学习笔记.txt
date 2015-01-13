@@ -59,15 +59,59 @@
 	队列连接(Queued Connection)
 		当控制权回到接受者所依附线程的事件循环时，槽函数被调用。
 		槽函数在接收者所依附线程执行。
-
-
-
-
-
-
-
-
-
+18.C++模板是否可以定义在局部变量内部
+	模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在main函数中声明或定义一个模板。
+19.C++函数模板和类模板的区别
+	函数模板针对仅参数类型不同的函数；
+	类模板针对仅数据成员和成员函数类型不同的类。
+20.C++函数模板的定义格式
+	template <class 形参名，class 形参名，......> 返回类型 函数名(参数列表)
+	{
+		函数体
+	}
+21.C++类模板的定义格式
+	template<class  形参名，class 形参名，…>   class 类名 
+	{ ... };
+22.C++的模板的非类型形参
+	<1>非类型模板形参：模板的非类型形参也就是内置类型形参，如template<class T, int a> class B{};其中int a就是非类型的模板形参。
+	<2>非类型形参在模板定义的内部是常量值，也就是说非类型形参在模板的内部是常量。
+	<3>非类型模板的形参只能是整型，指针和引用，像double，String, String **这样的类型是不允许的。但是double &，double *，对象的引用或指针是正确的。
+	<4>调用非类型模板形参的实参必须是一个常量表达式，即他必须能在编译时计算出结果。
+	<5>注意：任何局部对象，局部变量，局部对象的地址，局部变量的地址都不是一个常量表达式，都不能用作非类型模板形参的实参。全局指针类型，全局变量，全局对象也不是一个常量表达式，不能用作非类型模板形参的实参。
+	<6>全局变量的地址或引用，全局对象的地址或引用const类型变量是常量表达式，可以用作非类型模板形参的实参。
+	<7>sizeof表达式的结果是一个常量表达式，也能用作非类型模板形参的实参。
+	<8>当模板的形参是整型时调用该模板时的实参必须是整型的，且在编译期间是常量，比如template <class T, int a> class A{};如果有int b，这时A<int, b> m;将出错，因为b不是常量，如果const int b，这时A<int, b> m;就是正确的，因为这时b是常量。
+	<9>非类型形参一般不应用于函数模板中，比如有函数模板template<class T, int a> void h(T b){}，若使用h(2)调用会出现无法为非类型形参a推演出参数的错误，对这种模板函数可以用显示模板实参来解决，如用h<int, 3>(2)这样就把非类型形参a设置为整数3。显示模板实参在后面介绍。
+	<10>非类型模板形参的形参和实参间所允许的转换
+		a.允许从数组到指针，从函数到指针的转换。如：template <int *a> class A{}; int b[1]; A<b> m;即数组到指针的转换
+		b.const修饰符的转换。如：template<const int *a> class A{}; int b; A<&b> m;   即从int *到const int *的转换。
+		c.提升转换。如：template<int a> class A{}; const short b=2; A<b> m; 即从short到int 的提升转换
+		d.整值转换。如：template<unsigned int a> class A{};   A<3> m; 即从int 到unsigned int的转换。
+		e.常规转换。
+23.C++函数模板显式调用
+	xxx<>();
+24.C++模板的默认模板类型形参
+	只能用于类模板，不能用于函数模板
+	格式为：template<class T1, class T2=int> class A{};
+	默认值开了头，后面的就必须都有默认值，如template<class T1=int, class T2>class A{};就是错误的
+	在类模板的外部定义类中的成员时template 后的形参表应省略默认的形参类型。比如template<class  T1, class T2=int> class A{public: void h();}; 定义方法为template<class T1,class T2> void A<T1,T2>::h(){}。
+25.C++模板中class和typename的区别
+	一般情况下，毫无区别，只是在嵌套使用的时候，必须加typename关键字，如：
+	template <class T> void xxx(typename T::xx a)
+	{
+    		a;
+	}
+	T::xx前必须加typename，
+	但是在基类和成员初始化中不能加，如：
+	template<class T>
+	class xxx:public Base<T>::sss //不加
+	｛
+		xxx():Base<T>::sss() //不加
+	}
+26.C++的初始化列表的格式
+	xxx(参数列表):a(),b() {};
+27.C++类和结构体的区别
+	结构体的默认是公有，类的默认是私有
 
 
 
