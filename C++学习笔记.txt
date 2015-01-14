@@ -114,7 +114,8 @@
 	结构体的默认是公有，类的默认是私有
 28.C++匿名函数(lambda函数,lambda表达式)
 	[capture](parameters)->return-type{body}
-
+29.atexit函数的作用
+	注册N(<=32)个在程序退出时执行的函数，格式为void xxx(void)，按注册顺序的反序执行，_exit和_Exit不会调用。
 
 
 
