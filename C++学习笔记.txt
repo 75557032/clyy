@@ -112,6 +112,8 @@
 	xxx(参数列表):a(),b() {};
 27.C++类和结构体的区别
 	结构体的默认是公有，类的默认是私有
+28.C++匿名函数(lambda函数,lambda表达式)
+	[capture](parameters)->return-type{body}
 
 
 
