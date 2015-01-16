@@ -140,6 +140,10 @@
 	当同一类的所有对象使用一个量时，对于这个共用的量，可以用静态数据成员变量，这个变量对于同一类的所有的对象都取相同的值。
 	静态成员变量只能被静态成员函数调用。
 	静态成员函数也是由同一类中的所有对象共用。只能调用静态成员变量和静态成员函数。
+34.Qt中View和Widget的命名区别
+	xxxView是可以和Model绑定，xxxWidget继承于xxxView，私有化setModel
+35.Qt中改变单元格状态或编辑控件
+	子类化QItemDelegate，然后view->setItemDelegate(sa);
 
 
 
