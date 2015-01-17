@@ -144,7 +144,11 @@
 	xxxView是可以和Model绑定，xxxWidget继承于xxxView，私有化setModel
 35.Qt中改变单元格状态或编辑控件
 	子类化QItemDelegate，然后view->setItemDelegate(sa);
-
+36.编程语言中的调用约定
+	stdcall:参数从右到左开始压栈,函数本身清除了栈上的参数，不支持可变参数个数的函数，下划线开头，函数名，然后@符号，最后是参数的总byte数。如：int f(int a, double b )，名字为_f@12
+	cdecl:参数从右到左开始压栈,调用者来清除栈上的参数，支持可变参数个数的函数，加下划线前缀，如：_func
+	fastcall:参数从右到左开始压栈,第一个参数和第二个参数使用寄存器，调用者来清除栈上的参数，不支持可变参数个数的函数，以@开头，其他和__stdcall一样。如：@f@12
+	其他还有register,pascal,safecall等约定，不太常用
 
 
 
