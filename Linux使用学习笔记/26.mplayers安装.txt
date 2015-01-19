@@ -1,0 +1,5 @@
+﻿mplayers安装
+yum -y install yasm
+./configure --enable-gui --language=zh_CN
+下载皮肤
+mv 皮肤 /usr/local/share/mplayer/Skin/default

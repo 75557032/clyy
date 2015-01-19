@@ -1,0 +1,7 @@
+﻿gcc编译安装
+mkdir gccout
+cd gccout
+../contrib/download_prerequisites
+../configure --prefix=/usr
+make
+make install

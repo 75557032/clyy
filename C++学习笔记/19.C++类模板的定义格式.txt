@@ -1,0 +1,3 @@
+C++类模板的定义格式
+	template<class  形参名，class 形参名，…>   class 类名 
+	{ ... };

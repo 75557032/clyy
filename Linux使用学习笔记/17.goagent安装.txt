@@ -1,0 +1,2 @@
+﻿goagent安装
+python setup.py install

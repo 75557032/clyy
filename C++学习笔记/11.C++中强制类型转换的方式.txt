@@ -1,0 +1,6 @@
+C++中强制类型转换的方式：
+	支持C系列的转换(type)xxx；
+	类似C系列，什么都不检查：reinterpret_cast
+	编译期间进行检查：static_cast
+	编译期间+运行期间进行检查：dynamic_cast，运行期间转换失败，返回NULL
+	打破常量不能修改的转换：const_cast

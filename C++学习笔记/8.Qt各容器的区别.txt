@@ -1,0 +1,17 @@
+Qt各容器的区别：
+	QLinkedList<T> 基于链表实现，元素存储空间不连续，提供基于index的对元素的快速访问，有较多插入操作，删除时建议使用。 类似于QList，但是一般通过迭代器访问元素，而不是index。
+	链表，添加删除操作多，读取少的情况下使用
+	QVector<T> 存储空间连续，插入操作性能不理想，访问性能佳。 数组的区别在于:可以随时改变大小。
+	数组，读取多，插入删除少的情况下使用
+	QList<T> 集合了QLinkedList<T>和QVector<T>的优点 具有很好的扩展性，比如QStringList。 QList::append()：后端插入 QList::prepend(): 前端插入 QList::insert()：按index插入
+	比较通用，中和
+	QStack<T> 继承于QVector，提供LIFO功能。 新增push(), pop(), 和 top()等。
+	栈，对最后元素频繁操作的情况下使用
+	QQueue<T> 继承于QList，提供FIFO功能。 新增enqueue(), dequeue(), and head().
+	队列，对第一个频繁操作的情况下使用
+	QSet<T> 提供对不可重复的集合的快速查找。
+	数据基本固定，查询很多的情况下使用
+	QMap<Key, T> 按照键排序，存储键值对。
+	QMultiMap<Key, T> 与QMap不同在于，一键可以对应多值。
+	QHash<Key, T> 与QMap类似，不同之处在于，对于元素查找，利用hash函数进行，并且元素并没有按照键值排序。
+	QMultiHash<Key, T> 与QHash的不同之处在于，可以一键对应多值。

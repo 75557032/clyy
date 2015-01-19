@@ -1,0 +1,4 @@
+﻿后台执行
+1.nohup 命令 &
+2.python proxy.py &> ss &
+  exit

@@ -1,0 +1,14 @@
+C++模板中class和typename的区别
+	一般情况下，毫无区别，只是在嵌套使用的时候，必须加typename关键字，如：
+	template <class T> void xxx(typename T::xx a)
+	{
+    		a;
+	}
+	T::xx前必须加typename，
+	但是在基类和成员初始化中不能加，如：
+	template<class T>
+	class xxx:public Base<T>::sss //不加
+	｛
+		xxx():Base<T>::sss() //不加
+	}
+

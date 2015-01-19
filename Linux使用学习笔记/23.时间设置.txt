@@ -1,0 +1,12 @@
+﻿时间设置
+1、设定系统时间
+date -s "2006-11-23"
+date -s "22:07:21" 
+date -s "2005-6-4 17:26"
+date 查看时间
+
+2、同步系统和BIOS时间
+hwclock --show 显示bios时间
+hwclock --systohc 将系统时间写入bios
+hwclock --hctosys 将bios时间写入系统
+hwclock --help 显示帮助

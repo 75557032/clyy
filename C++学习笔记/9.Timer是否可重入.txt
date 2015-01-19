@@ -1,0 +1,2 @@
+Timer是否可重入：
+	单线程情况下，不会重入，除非内部进行消息循环处理,Qt下，即使使用QEventLoop阻塞，也不会造成重入，Delphi下如果使用Application.ProcessMessages;会重入

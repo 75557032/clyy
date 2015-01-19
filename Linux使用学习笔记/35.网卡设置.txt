@@ -1,0 +1,5 @@
+网卡设置：
+ifconfig eth0 IP设置IP；
+编辑/etc/sysconfig/network-scripts/ifcfg-eth[x]文件，详细设置网卡
+ONBOOT="yes"开机加载
+service network start使网卡配置有效

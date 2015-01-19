@@ -1,0 +1,16 @@
+﻿安装wine：下载wine，http://www.winehq.org/
+1{
+<1>tar jxvf wine-x.x.x.x.tar.bz2
+<2>cd wine-x.x.x.x
+<3>./configure 64位的话，加--enable-win64
+<4>make
+<5>make install
+注：找不到wine是因为64下的名字叫wine64，加个名为wine的链接到wine64
+}本机使用
+2{
+#yum --enablerepo epel list wine\*
+#yum --enablerepo epel install wine
+}参考
+3{
+#yum --enablerepo rpmforge list wine\*
+}参考

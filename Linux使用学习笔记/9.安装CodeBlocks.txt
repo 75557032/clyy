@@ -1,0 +1,17 @@
+﻿安装CodeBlocks
+1{
+tar jxvf codeblocks-12.11-1.el6.x86_64.tar.bz2
+yum install wxBase wxGTK wxGTK-devel wxGTK-gl wxGTK-media
+yum install valgrind
+rpm -ivh codeblocks-12.11-1.el6.x86_64.rpm 
+rpm -ivh codeblocks-contrib-12.11-1.el6.x86_64.rpm
+rpm -ivh codeblocks-contrib-devel-12.11-1.el6.x86_64.rpm
+rpm -ivh codeblocks-devel-12.11-1.el6.x86_64.rpm
+svn checkout svn://svn.code.sf.net/p/codeblocks/code/trunk
+./bootstrap
+yum -y install hunspell-devel
+yum -y install gamin-devel
+./configure --with-contrib-plugins=all
+make
+make install
+}

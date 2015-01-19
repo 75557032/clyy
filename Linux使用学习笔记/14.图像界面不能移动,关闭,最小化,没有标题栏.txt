@@ -1,0 +1,3 @@
+﻿图像界面不能移动，关闭，最小化，没有标题栏
+yum install compiz compiz-devel compiz-gnome
+metacity

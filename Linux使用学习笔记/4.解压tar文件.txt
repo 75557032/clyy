@@ -1,0 +1,8 @@
+﻿解压tar文件
+1{
+<1>tar jxvf 文件 
+}
+tar -cjf all.tar.bz2 *.jpg 
+这条命令是将所有.jpg的文件打成一个tar包，并且将其用bzip2压缩，生成一个 bzip2压缩过的包，包名为all.tar.bz2 
+tar -xjf all.tar.bz2 
+这条命令是将上面产生的包解开。

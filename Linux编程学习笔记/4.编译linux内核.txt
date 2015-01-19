@@ -1,0 +1,55 @@
+﻿编译linux内核：
+1：修改flash分区：arch/arm/mach-芯片类型/board-芯片后缀ek.c文件的NAND flash分区代码
+
+/*
+ * NAND flash
+ */
+static struct mtd_partition __initdata ek_nand_partition[] = {
+	{
+		.name	= "Bootloader",
+		.offset	= 0,
+		.size	= 4*1024*1024,
+	},
+	{
+		.name	= "Kernel",
+		.offset	= 4*1024*1024,
+		.size	= MTDPART_SIZ_FULL,
+	},
+	{
+		.name	= "jffs2",
+		.offset	= 8*1024*1024,
+		.size	= MTDPART_SIZ_FULL,
+	},
+};
+
+2：修改晶振：同上文件，at91_initialize函数为设置晶震频率，不同芯片，具体看芯片文档，且函数名可能不是ek_init_early，但是会有__init，后三据设置串口，不修改，可能启动内核时输出乱码
+static void __init ek_init_early(void)
+{
+	/* Initialize processor: 16.367 MHz crystal 
+	at91_initialize(16367660);*/
+	/* Initialize processor: 18.432 MHz crystal  demo board is 16.367 MHZ*/
+	at91_initialize(18432000);
+
+	/* DGBU on ttyS0. (Rx & Tx only) */
+	at91_register_uart(0, 0, 0);
+
+	/* USART0 com1 on ttyS1. (Rx, Tx, RTS, CTS) */
+	at91_register_uart(AT91SAM9263_ID_US0, 1, ATMEL_UART_CTS | ATMEL_UART_RTS);
+	/* USART1 com2 on ttyS2. (Rx, Tx) */
+	at91_register_uart(AT91SAM9263_ID_US1, 2,0);
+	/* USART2 com3  on ttyS3. (Rx, Tx) */
+	at91_register_uart(AT91SAM9263_ID_US2, 3,0);
+
+	/* set serial console to ttyS0 (ie, DBGU) 
+	at91_set_serial_console(0);*/
+}
+
+3：配置内核：其他的自己看，但是在选择芯片的时候，务必选中下方一个带Kit的选项，否则会报告no machine record defined，如果内核内部有定义，在include/asm-arm/mach-types.h中，如过无，看看u-boot，加进来，或者编译内核时勾上
+make menuconfig
+Kernel hacking --->
+[*] Kernel debugging
+[*] Kernel low-level debugging functions
+[*] Kernel low-level debugging messages via S3C UART
+输出
+Starting kernel ... Uncompressing Linux................................................................................................................................... done, booting the kernel. Error: unrecognized/unsupported machine ID (r1 = 0x0000016a). Available machine support: ID (hex) NAME 000007cf FriendlyARM Mini2440 development board Please check your kernel config and/or bootloader.
+000007cf就是Machine ID，双方一致就OK，网上说的注释arch/arm/kernel/vmlinux.lds的断言函数，那是扯淡

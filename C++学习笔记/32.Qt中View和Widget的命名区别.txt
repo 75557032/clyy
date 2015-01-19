@@ -1,0 +1,2 @@
+Qt中View和Widget的命名区别
+	xxxView是可以和Model绑定，xxxWidget继承于xxxView，私有化setModel

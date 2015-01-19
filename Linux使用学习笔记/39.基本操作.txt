@@ -1,0 +1,13 @@
+基本操作
+mkdir
+rmdir
+mount -t sbmfs xxx /ddd
+umount /ddd
+fuser -vm /usr/local/  查看使用的进程
+fuser -km 加i参数的话，会出现交互式 干掉使用的进程
+
+yum install kernel-devel   
+yum install gcc
+sh ./VBoxLinuxAdditions-x86.run安装VBox的增强工具
+rpm -qa |grep ppp 检查包是否存在
+rpm -ivh xxx 安装包

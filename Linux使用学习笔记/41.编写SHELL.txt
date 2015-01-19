@@ -1,0 +1,12 @@
+编写SHELL
+1.echo $SHELL 确定shell版本
+2.vi ss.sh
+#!/bin/bash   依据第一条看到的
+命令1
+if [ "" = "" ]; then
+else
+fi
+:x
+修改自windows的话:set fileformat=unix
+chmod +x ss.sh
+./ss.sh

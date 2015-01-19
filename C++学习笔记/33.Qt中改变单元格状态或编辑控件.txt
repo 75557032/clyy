@@ -1,0 +1,2 @@
+Qt中改变单元格状态或编辑控件
+	子类化QItemDelegate，然后view->setItemDelegate(sa);

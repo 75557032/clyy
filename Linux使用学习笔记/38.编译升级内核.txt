@@ -1,0 +1,35 @@
+编译升级内核
+<uname -r>
+<yum install ncurses-devel>
+<yum install make >
+<yum install perl>
+<cp 内核 /usr/src>
+<tar -jxvf 内核>
+<cd 内核>
+<make mrproper> 第一次配置使用
+<make clean>     以后或第二次配置使用的命令
+<make menuconfig> 设置编译选项，选择本地文件系统语言为中文
+<make dep> 设定依赖关系
+<make bzImage> 压缩内核，当然也可以直接<make>，多核的话用<make -j 数字> 开多线程
+<make modules> 编译内核模块
+<make modules_install> 安装内核模块
+<make install> 自动安装
+cp System.map /boot/System.map-2.6.30.10
+cp arch/x86/boot/bzImage /boot/vmlinuz-2.6.30.10 ----文件是配置内核产生的文件。
+cp .config /boot/config-2.6.30.10 ---建议设置档案也备份    
+cd /boot
+new-kernel-pkg --mkinitrd --depmod --install 2.6.30.10 
+    (自动生成initrd-2.6.30.10.img 文件。并且自动修改/boot/grep/menu.lst文件 )
+
+mkinitrd initrd-2.6.30.10.img 2.6.30.10
+    (只生成initrd-2.6.30.10文件。需要手动更改/boot/grep/menu.lst文件)
+
+修改grub或lilo
+vi /boot/grub/menu.lst
+
+title CentOS (2.6.30.10)
+        root (hd0,0)
+        kernel /vmlinuz-2.6.30.10 ro root=/dev/VolGroup00/LogVol00
+        initrd /initrd-2.6.30.10.img
+http://www.huomo.cn/os/article-1177f.html
+http://www.linuxidc.com/Linux/2010-09/28529.htm

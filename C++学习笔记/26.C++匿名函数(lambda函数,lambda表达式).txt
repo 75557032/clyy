@@ -1,0 +1,2 @@
+C++匿名函数(lambda函数,lambda表达式)
+	[capture](parameters)->return-type{body}

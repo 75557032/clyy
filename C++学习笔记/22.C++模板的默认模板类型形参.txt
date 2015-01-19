@@ -1,0 +1,5 @@
+C++模板的默认模板类型形参
+	只能用于类模板，不能用于函数模板
+	格式为：template<class T1, class T2=int> class A{};
+	默认值开了头，后面的就必须都有默认值，如template<class T1=int, class T2>class A{};就是错误的
+	在类模板的外部定义类中的成员时template 后的形参表应省略默认的形参类型。比如template<class  T1, class T2=int> class A{public: void h();}; 定义方法为template<class T1,class T2> void A<T1,T2>::h(){}。

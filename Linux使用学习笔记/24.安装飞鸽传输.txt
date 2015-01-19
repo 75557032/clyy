@@ -1,0 +1,6 @@
+﻿安装飞鸽传输
+yum -y install gnome-panel-devel
+./configure --enable-systray
+make
+make install
+2524端口可信

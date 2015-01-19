@@ -1,0 +1,3 @@
+﻿编译器：
+arm-none-linux-gnueabi是基于linux系统的，http://blog.csdn.net/ee230/article/details/41513957的博客上有地址，是百度云盘的
+arm-none-gnueabi是基于裸板的，在Launchpad可以下载

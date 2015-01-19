@@ -1,0 +1,2 @@
+﻿字符模式分辨率
+vi /boot/grub/grub.conf 加vga=ask看了后vga=0xXXX

@@ -1,0 +1,10 @@
+﻿SDCC编译安装
+LD_LIBRARY_PATH=/usr/local/lib
+export LD_LIBRARY_PATH
+mkdir out
+cd out
+安装gputils
+yum -y install boost-devel
+../configure
+make
+make install

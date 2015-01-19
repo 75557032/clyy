@@ -1,4 +1,4 @@
-1.in和exists速率：
+in和exists速率：
 	查询的两个表大小相当，那么用in和exists差别不大；
 	两个表中一个较小，一个是大表，则子查询表大的用exists，子查询表小的用in；
 	所以无论那个表大，用not exists都比not in要快

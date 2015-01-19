@@ -1,0 +1,7 @@
+﻿android开发
+1{
+<1>下载adt-bundle-linux；
+<2>解压adt-bundle-linux
+<3>下载BabelLanguagePack-eclipse-zh_3.7.0.v20111128043401
+<4>解压BabelLanguagePack-eclipse-zh_3.7.0.v20111128043401，复制到adt解压目录/eclipse/dropins
+}

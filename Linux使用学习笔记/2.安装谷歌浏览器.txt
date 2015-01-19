@@ -1,0 +1,7 @@
+﻿安装谷歌浏览器
+1{
+<1>cp google-chrome.repo /etc/yum.repos.d/
+<2>yum install google-chrome-stable --nogpgcheck
+<3>创建所有用户都可一增删改查权限的目录/root/.google_chrome/
+<4>vi /opt/google/chrome/google-chrome exec -a "$0" "$HERE/chrome"  "$@" 加"--user-data-dir=/home/zyp/.config/google-chrome"
+}

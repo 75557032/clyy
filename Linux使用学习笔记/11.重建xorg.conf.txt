@@ -1,0 +1,3 @@
+﻿重建xorg.conf
+Xorg -configure
+mv /root/xorg.conf.new xorg.conf

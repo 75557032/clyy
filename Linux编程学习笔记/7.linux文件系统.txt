@@ -1,0 +1,13 @@
+﻿linux文件系统：
+编译busybox，复制到制定的文件夹下，具体参照jffs2文件夹，需要注意的是，要将编译器的.so文件复制到/lib里面，主要包括:$编译器/arm-none-linux-gnueabi/libc/lib下和$编译器/arm-none-linux-gnueabi/libc/usr/lib的所有.so，最好分别复制到/lib和/usr/lib
+libthread_db.so是GDBServer需要的链接库
+readelf -d xxx   可以查看xxx的依赖库
+mkfs.jffs2 -e 0x20000 -l -s 0x800 -p -n -d jffs2 -o jffs2.jffs2
+将jffs2文件夹制作成jffs2.jffs2的镜像文件
+-e, --eraseblock=SIZE   设定擦除块的大小为(默认: 64KiB)
+-l, --little-endian             指定使用小端格式
+-s, --pagesize=SIZE   节点页大小(默认: 4KiB)
+-p, --pad[=SIZE]        用16進制表示所要輸出檔案的大小，也就是root.jffs2的size。很重要的是,為了不浪費flash空間,這個值最好符合flash driver的區塊大小。如果不足则使用0xff来填充补满。
+-n, --no-cleanmarkers   指明不添加清楚标记（nand flash 有自己的校检块，存放相关的信息。）
+-r, -d, --root=DIR       指定要做成image的源資料夾.(默认：当前文件夹)
+-o, --output=FILE         指定輸出image檔案的文件名.(default: stdout)

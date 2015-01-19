@@ -1,0 +1,17 @@
+﻿迁移驱动：
+1.新内核去掉了__devexit，__devinitdata，__devinit，__devexit_p四个宏定义，如果有的话，自己加上即可
+#define __devexit
+#define __devinitdata
+#define __devinit
+#define __devexit_p
+2.新内核的驱动结构发生变化，以前为：
+static struct file_operations adc_fops = {
+	.owner	=	THIS_MODULE,
+	.open	=	adc_open,
+	.write	=	adc_write,
+	.read	=	adc_read,
+	.release=	adc_release,
+	.ioctl	=	adc_ioctl,
+};
+现在ioctl变成两个unlocked_ioctl和compat_ioctl;compat_ioctl被使用在用户空间为32位模式，而内核运行在64位模式时。这时候，需要将64位转成32位。一般用unlocked_ioctl取代
+3.IRQF_SAMPLE_RANDOM中断标记被取消

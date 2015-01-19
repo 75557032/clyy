@@ -1,0 +1,7 @@
+安装桌面
+yum -y groupinstall Desktop 
+yum -y groupinstall "X Window System" 
+yum -y groupinstall "Chinese Support" 
+
+centos6.3init 5模式进入是中文，但是在终端模式下用startx命令进去却是英文：
+在$home目录下缺少一个叫.i18n的文件，里面的变量应为saved_lang在这个里面指定后，startx也为英文。

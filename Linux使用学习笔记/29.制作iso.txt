@@ -1,0 +1,10 @@
+﻿制作iso
+1.提取光盘
+umount /dev/cdrom
+dd if=/dev/cdrom of=file.iso bs=1024
+2.文件夹制作
+mkisofs -r -o file.iso xxx/
+3.挂载iso
+mount -o loop file.iso /mnt
+4.生成一个MD5文件，执行
+md5sum file.iso > file.iso.md5

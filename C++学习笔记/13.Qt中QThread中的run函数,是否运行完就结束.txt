@@ -1,0 +1,2 @@
+Qt中QThread中的run函数，是否运行完就结束
+	run中调用了消息循环的exec，不接收到quit是不会跳出的

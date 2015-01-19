@@ -1,0 +1,5 @@
+﻿增加LD_LIBRARY_PATH全局变量及其他
+cd /etc/ld.so.conf.d/
+vi gcc.conf 增加路径后，运行程序可以找到
+ldconfig
+/etc/profile和/etc/environment是全局设置变量，修改后使用. /etc/xxx或source /etc/xxx生效，但是限制LD_LIBRARY_PATH

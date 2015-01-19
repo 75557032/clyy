@@ -1,0 +1,2 @@
+C++的空类大小
+	class A ｛｝ sizeof(A)=1

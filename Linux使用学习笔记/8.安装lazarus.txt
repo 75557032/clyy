@@ -1,0 +1,8 @@
+﻿八.安装lazarus
+1{
+yum -y install gpm
+rpm -ivh fpc-2.6.0-2.fc17.x86_64.rpm 
+rpm -ivh fpc-doc-2.6.0-2.fc17.x86_64.rpm
+rpm -ivh fpc-src-2.6.0-2.fc17.x86_64.rpm 
+rpm -ivh lazarus-1.0.6-0.x86_64.rpm
+}

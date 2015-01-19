@@ -1,0 +1,17 @@
+﻿设置CentOS 解除自动待机休眠
+vi /etc/X11/xorg.conf
+
+       添加以下内容
+
+Section "ServerFlags"
+       Option "BlankTime" "0"
+       Option "StandbyTime" "0"
+       Option "SuspendTime" "0"
+       Option "OffTime" "0"
+EndSection
+
+Section "Monitor"
+       Option "DPMS" "false"
+EndSection
+
+重启Linux系统即可！

@@ -1,0 +1,51 @@
+﻿安装nVidia驱动
+1{
+<1>wget http://cn.download.nvidia.com/XFree86/Linux-x86_64/280.13/NVIDIA-Linux-x86_64-310.19.run；
+<2>yum install kernel-devel kernel-headers gcc\* glibc\*glibc-\*
+<3>yum remove glx-utils
+<4>vi /etc/modprobe.d/blacklist.conf 增加blacklist nouveau
+<5>
+	第一步：把Nouveau驱动加入黑名单
+	修改/etc/modprobe.d/blacklist.conf文件，在里面加入blacklist nouveau
+	第二步：重新建立initramfs image文件
+	$mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname-r).img.bak
+	$dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
+	第三步：进入init 3安装Nvidia官方驱动
+	修改/etc/inittab，使系统开机进入init 3文本模式
+	id:3:initdefault:
+	重启后，root登录系统，可以看到在init3文本模式下字体明显变大，就是禁用nouveau了效果现在可以使用
+	lsmod| grep nouveau命令确认一下、确认没有加载nouveau。
+	添加执行权限，进行安装显卡驱动：
+	chmod +x NVIDIA-Linux-x86_64-270.41.19.run && ./NVIDIA-Linux-x86_64-310.19.run
+	第四步：修改/etc/inittab，使系统开机进入init 5图形界面模式
+	重启登陆后在系统- 首选项里可以看到NVIDIA X Server Settings菜单，可以查看基本信息及进行一些设置
+	或者用命令glxinfo或者glxgears检测是否成功安装即可。
+	id:5:initdefault:
+	第五步：安装3D桌面效果，并测试动态效果
+	yum install compiz compiz-devel
+	安装成功之后会出现“系统”-“首选项”-“桌面效果”菜单，然后一般会出现窗口标题栏消失的毛病，
+	需要按照如下修改：
+	vi /etc/X11/xorg.conf ：
+	Section "Screen"
+	# Removed Option"metamodes" "1280x800_60 +0+0"
+	# Removed Option"metamodes" "nvidia-auto-select +0+0"
+	Identifier"Screen0"
+	Device"Device0"
+	Monitor"Monitor0"
+	Option"AddARGBGLXVisuals""True"
+	DefaultDepth24
+	Option"TwinView" "0"
+	Option"metamodes" "1280x800+0+0"
+	SubSection"Display"
+	Depth24
+	EndSubSection
+	EndSection
+	里添加的是
+	Option"AddARGBGLXVisuals""True"
+
+	如果想屏蔽ctrl+alt+backspace，将以下行加到文件最后：
+	Section"ServerFlags"
+	Option"DontZap""yes"
+	EndSection
+	保存文件，注销当前帐户，从新登录以上变化就生效。
+}

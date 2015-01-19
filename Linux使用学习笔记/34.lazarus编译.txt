@@ -1,0 +1,3 @@
+﻿lazarus编译
+make all && make bigide
+设置fpc源路径时提示版本为1时，把rtl和packages复制到一个目录，然后设置即可。

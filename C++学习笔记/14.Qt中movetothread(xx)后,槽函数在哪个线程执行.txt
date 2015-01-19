@@ -1,0 +1,2 @@
+Qt中QObject::movetothread(xx)后，槽函数在哪个线程执行
+	槽函数在xx线程中执行

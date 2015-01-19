@@ -1,0 +1,18 @@
+﻿armgcc编译
+cd binutils-2.23.2
+../configure --target=arm-eabi --prefix=/root/armgcc
+make all && make install
+cd gcc-4.8.0
+mkdir armout
+cd armout/
+../configure --target=arm-eabi --prefix=/root/armgcc --with-newlib --enable-languages=c,c++ --without-headers
+export PATH=$PATH:/root/armgcc/bin
+make all-gcc && make install-gcc
+cd newlib-2.0.0
+yum -y install texinfo
+export CC=gcc
+export cc=gcc
+./configure --target=arm-eabi --prefix=/root/armgcc --with-newlib
+make all && make install
+cd gcc-4.8.0/armout/
+make all && make install

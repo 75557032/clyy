@@ -1,0 +1,23 @@
+﻿更新163yum源http://mirrors.163.com/
+1{
+<1>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.back
+<2>cp CentOS6-Base-163.repo /etc/yum.repos.d/
+<3>yum makecache
+}
+yum源更换：
+vi /etc/yum.repos.d/CentOS-Base.repo
+注释所有的mirrorlist,放开baseurl，修改mirror.centos.org地址为mirrors.163.com
+最好先检查是否安装wget
+yum -y install wget
+wget http://mirrors.163.com/.help/CentOS6-Base-163.repo
+mv CentOS6-Base-163.repo CentOS-Base.repo
+yum makecache
+
+系统更新(更新所有可以升级的rpm包,包括kernel)
+yum -y update
+
+检查可更新的rpm包
+yum check-update
+
+更新所有的rpm包
+yum update

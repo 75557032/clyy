@@ -1,0 +1,7 @@
+﻿fpc编译
+先安装fpc。。。。。。
+makefile添加OVERRIDEVERSIONCHECK=1可以用其他版本编译
+make all && make install PREFIX=/soft/fpc/linux64 && make install sourceinstall PREFIX=/soft/fpc/linux64
+fpcmkcfg -d basepath=/soft/freepascal/lib/fpc/2.7.1/ -o /etc/fpc.cfg
+交叉编译
+make all CPU_TARGET=i386 && make install CPU_TARGET=i386  PREFIX=/soft/fpc/linux32

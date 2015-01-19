@@ -1,0 +1,19 @@
+﻿IDE：
+CodeBlocks:汉化方法：/usr/share/codeblocks下新建locale文件夹，再新建zh_CN文件夹，把codeblocks.mo放到里面
+
+u-boot：
+print：输出当前配置信息
+setenv：设置配置
+saveenv：保存配置
+bootm：第一个参数是引导位置
+nand erase:格式化nand flash
+tftp 22200000 uImage
+从设置的serverip的地方下载uImage到内存的22200000位置，22200000是个指定的位置，尽量考后，避免被使用
+nand write 22200000 400000 200000
+将内存22200000地址的的数据，写入到flash的400000的位置，大小是200000，22200000同上tftp时的指定，400000需要查看linux内核文件夹下的arch/arm/mach-芯片类型/board-芯片后缀ek.c文件的NAND flash分区代码，修改分区，或者修改此地参数，大小就是tftp接收的大小，可以大，不能小，最大不能超过分区大小
+tftp 21100000 jffs2.jffs2
+同下载uImage，21100000的含义和22200000相同
+nand write.jffs2 21100000 800000 400000
+参数含义与写入uImage相同
+设置bootcmd变量：setenv bootcmd nand read 22200000 400000 200000 /; bootm 22200000
+read后的三个参数同write uImage的参数，含义略有不同：read：读取flash 400000位置的大小为200000的数据到内存22200000，bootm后为内存引导地址

@@ -1,0 +1,3 @@
+﻿强制断电后无法启动
+看check那个设备，我的这次是/dev/sda2
+fsck -y /dev/sda2

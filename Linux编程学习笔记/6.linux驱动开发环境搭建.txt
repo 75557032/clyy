@@ -1,0 +1,19 @@
+﻿linux驱动开发环境搭建：
+1.下载linux内核
+2.编译内核（类似裁剪）
+3.主机编写驱动文件和Makefile
+Makefile类似于下：
+********************************************************************
+ifneq ($(KERNELRELEASE),)
+obj-m :=at91_keypad.o
+obj-m +=at91_adc.o
+#at91_adc-objs := at91_adc.o
+else
+CROSS_COMPILE := /home/xhxtt/ftp/arm-2014.05/bin/arm-none-linux-gnueabi-gcc
+KDIR := /home/xhxtt/ftp/linux-3.18
+all:
+	$(MAKE) ARCH=arm CROSS_COMPILE=/home/xhxtt/ftp/arm-2014.05/bin/arm-none-linux-gnueabi- -C $(KDIR) M=$(shell pwd) modules
+endif
+********************************************************************
+CROSS_COMPILE 编译器
+KDIR := 内核源码

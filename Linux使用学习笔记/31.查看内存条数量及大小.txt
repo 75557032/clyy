@@ -1,0 +1,2 @@
+﻿查看内存条数量及大小
+dmidecode -t memory | grep Size
