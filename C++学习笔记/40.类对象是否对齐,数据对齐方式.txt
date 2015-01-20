@@ -1,0 +1,69 @@
+类对象是否对齐
+	对齐方面和结构体一样
+数据对齐规则
+	gcc:__attribute__((packed))取消对齐，默认4对齐，__attribute__((aligned(n)))指定n对齐，对齐是可以合并的
+
+验证
+1：
+class A
+{
+    int a;
+    char b;
+};
+
+int main()
+{
+    cout << sizeof(A) << endl;
+    return 0;
+}
+
+输出8
+
+2：
+class A
+{
+    int a;
+    char b;
+}__attribute__((packed));
+
+int main()
+{
+    cout << sizeof(A) << endl;
+    return 0;
+}
+
+输出5
+
+3：
+class A
+{
+    int a;
+    char c;
+    char b;
+}__attribute__((aligned(8)));
+
+int main()
+{
+    cout << sizeof(A) << endl;
+    return 0;
+}
+
+输出8
+
+4：
+class A
+{
+    int a;
+    int c;
+    char b;
+}__attribute__((aligned(8)));
+
+int main()
+{
+    cout << sizeof(A) << endl;
+    return 0;
+}
+
+输出16
+
+根据3和4可以看出，n大于成员最大值的时候，会将多个变量合并

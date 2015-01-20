@@ -1,0 +1,48 @@
+函数返回一个对象，赋值给一个对象，会构建几次
+	定义的时候：1次，赋值的时候两次（自身一次）
+
+验证
+1:
+class B
+{
+public:
+    B(){cout << "1" << endl;}
+};
+
+B ret_b()
+{
+    B a;
+    a;
+    return a;
+}
+
+int main()
+{
+    B c;
+    c=ret_b();
+    return 0;
+}
+
+输出两个1
+
+2:
+class B
+{
+public:
+    B(){cout << "1" << endl;}
+};
+
+B ret_b()
+{
+    B a;
+    a;
+    return a;
+}
+
+int main()
+{
+    B c=ret_b();
+    return 0;
+}
+
+输出一个1
