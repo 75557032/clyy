@@ -1,4 +1,4 @@
 Qt事件参数的传递方式：
-	qApp->sendEvent(ui->graphicsView,&xx);
-	qApp->postEvent(ui->graphicsView,aa);
-	Qt不会进行任何参数转储
+	qApp->sendEvent(ui->graphicsView,&QEvent);
+	qApp->postEvent(ui->graphicsView,new QEvent);第三个参数为处理级别
+	Qt不会进行任何参数转储,postEvent的第二个参数为指针，在事件循环调用后会自动释放，sendEvent的不会
