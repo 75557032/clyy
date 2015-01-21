@@ -2,3 +2,50 @@ Qt事件参数的传递方式：
 	qApp->sendEvent(ui->graphicsView,&QEvent);
 	qApp->postEvent(ui->graphicsView,new QEvent);第三个参数为处理级别
 	Qt不会进行任何参数转储,postEvent的第二个参数为指针，在事件循环调用后会自动释放，sendEvent的不会
+
+1.
+static const QEvent::Type MyEventType = (QEvent::Type)QEvent::registerEventType(QEvent::User+100);
+
+class MyEvent: public QEvent
+{
+public:
+    MyEvent(Type MyEvent):QEvent(MyEvent){qDebug() << "create";}
+    ~MyEvent(){qDebug() << "free";}
+};
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    qDebug() << "1";
+    MyEvent *a =new MyEvent(MyEventType);
+    qDebug() << "2";
+    qApp->sendEvent(this,a);
+    qDebug() << "3";
+}
+
+输出：
+1
+create
+2
+3
+
+2.
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    qDebug() << "1";
+    qDebug() << "2";
+    qApp->postEvent(this,new MyEvent(MyEventType));
+    qDebug() << "3";
+}
+
+输出：
+1
+2
+create
+3
+free
