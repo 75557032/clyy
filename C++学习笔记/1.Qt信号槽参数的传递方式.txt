@@ -1,2 +1,92 @@
 Qt信号槽参数的传递方式:
 	信号槽直连时，和函数传递一样，队列连接时，先对参数进行转储，然后传递，但是非内置类型，需要注册(qRegisterMetaType)
+
+1:
+namespace Ui {
+class MainWindow;
+}
+
+struct clyy
+{
+    int a;
+};
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+public: signals:
+    void clyysig(clyy);
+
+private slots:
+    void on_pushButton_clicked();
+    void clyyslot(clyy);
+
+private:
+    Ui::MainWindow *ui;
+};
+
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    connect(this,&MainWindow::clyysig,this,&MainWindow::clyyslot,Qt::QueuedConnection);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    struct clyy a;
+    emit clyysig(a);
+}
+
+void MainWindow::clyyslot(clyy)
+{
+
+}
+
+点击按钮输出:
+QObject::connect: Cannot queue arguments of type 'clyy'
+(Make sure 'clyy' is registered using qRegisterMetaType().)
+
+2:
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    connect(this,&MainWindow::clyysig,this,&MainWindow::clyyslot,Qt::DirectConnection);//修改
+}
+
+点击按钮无输出
+
+3.
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    qRegisterMetaType<struct clyy>("struct clyy");//添加
+    connect(this,&MainWindow::clyysig,this,&MainWindow::clyyslot,Qt::QueuedConnection);
+}
+
+点击按钮无输出
+
+4.
+struct clyy
+{
+    int a;
+};
+Q_DECLARE_METATYPE(struct clyy)
+
+点击按钮无输出
