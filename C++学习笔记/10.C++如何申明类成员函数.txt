@@ -1,2 +1,2 @@
-C++如何申明类成员函数：
+C++如何申明类成员函数
 	typedef void (A::*xxx)(int);
