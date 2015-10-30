@@ -1,0 +1,4 @@
+# depslib dependency file v1.0
+1420595678 source:c:\event\event.cpp
+	<iostream>
+
