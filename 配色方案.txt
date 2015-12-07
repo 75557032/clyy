@@ -21,5 +21,3 @@ C:\Users\Administrator\AppData\Roaming\QtProject\qtcreator\styles
 ColorScheme=C:/Users/Administrator/AppData/Roaming/QtProject/qtcreator/styles/clyy.xml
 
 源代码文本格式设置为UTF-8，显示空格，缩进为4个空格，不能有tab
-
-haxt——test
