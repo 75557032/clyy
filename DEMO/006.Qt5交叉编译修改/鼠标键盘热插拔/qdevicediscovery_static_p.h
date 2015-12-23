@@ -34,6 +34,7 @@
 #ifndef QDEVICEDISCOVERY_STATIC_H
 #define QDEVICEDISCOVERY_STATIC_H
 
+
 //
 //  W A R N I N G
 //  -------------
@@ -45,11 +46,10 @@
 // We mean it.
 //
 
+#include <QFileSystemWatcher>
 #include "qdevicediscovery_p.h"
 
 QT_BEGIN_NAMESPACE
-
-class QFileSystemWatcher;
 
 class QDeviceDiscoveryStatic : public QDeviceDiscovery
 {
@@ -57,7 +57,6 @@ class QDeviceDiscoveryStatic : public QDeviceDiscovery
 
 public:
     QDeviceDiscoveryStatic(QDeviceTypes types, QObject *parent = 0);
-    ~QDeviceDiscoveryStatic();
     QStringList scanConnectedDevices() Q_DECL_OVERRIDE;
 
 private:
@@ -65,7 +64,7 @@ private:
     QStringList old_ScanConnectedDevices();
 
 private:
-    QFileSystemWatcher *m_pFileWatcher;
+    QFileSystemWatcher m_FileWatcher;
     QStringList m_Devices;
     
 private:

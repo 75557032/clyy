@@ -34,6 +34,7 @@
 #ifndef QDEVICEDISCOVERY_H
 #define QDEVICEDISCOVERY_H
 
+
 //
 //  W A R N I N G
 //  -------------

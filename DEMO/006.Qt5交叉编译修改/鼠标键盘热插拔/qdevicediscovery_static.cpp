@@ -39,7 +39,6 @@
 #include <QHash>
 #include <QDir>
 #include <QLoggingCategory>
-#include <QFileSystemWatcher>
 #include <QtCore/private/qcore_unix_p.h>
 
 #include <linux/input.h>
@@ -68,7 +67,7 @@ static bool testBit(long bit, const long *field)
 
 QT_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcDD, "qt.qpa.input")
+Q_LOGGING_CATEGORY(lcDD, "qt.qpa.input") 
 
 QDeviceDiscovery *QDeviceDiscovery::create(QDeviceTypes types, QObject *parent)
 {
@@ -76,22 +75,22 @@ QDeviceDiscovery *QDeviceDiscovery::create(QDeviceTypes types, QObject *parent)
 }
 
 QDeviceDiscoveryStatic::QDeviceDiscoveryStatic(QDeviceTypes types, QObject *parent)
-    : QDeviceDiscovery(types, parent), m_pFileWatcher(new QFileSystemWatcher)
+    : QDeviceDiscovery(types, parent)
 {
-    m_pFileWatcher->addPath(QString::fromLatin1(QT_EVDEV_DEVICE_PATH));
-    connect(m_pFileWatcher, &QFileSystemWatcher::directoryChanged, this, &QDeviceDiscoveryStatic::directoryChanged);
+    m_FileWatcher.addPath(QString::fromLatin1(QT_EVDEV_DEVICE_PATH));
+    connect(&m_FileWatcher, &QFileSystemWatcher::directoryChanged, this, &QDeviceDiscoveryStatic::directoryChanged);
     qCDebug(lcDD) << "static device discovery for type" << types;
-}
-
-QDeviceDiscoveryStatic::~QDeviceDiscoveryStatic()
-{
-    delete m_pFileWatcher;
 }
 
 void QDeviceDiscoveryStatic::directoryChanged(const QString &path)
 {
-    Q_UNUSED(path);
+    if (path != QString::fromLatin1(QT_EVDEV_DEVICE_PATH)) {
+        return;
+     }
     QStringList devices = old_ScanConnectedDevices();
+    if (devices == m_Devices) {
+        return;
+     }
 
     for (int i = 0; i < m_Devices.count(); ++i) {
         if (-1 == devices.indexOf(m_Devices.at(i))) {
@@ -114,26 +113,17 @@ QStringList QDeviceDiscoveryStatic::old_ScanConnectedDevices()
     QDir dir;
     dir.setFilter(QDir::System);
 
-    // check for input devices
     if (m_types & Device_InputMask) {
         dir.setPath(QString::fromLatin1(QT_EVDEV_DEVICE_PATH));
         foreach (const QString &deviceFile, dir.entryList()) {
+            if (-1 == deviceFile.indexOf(QString::fromLatin1(QT_EVDEV_DEVICE_PREFIX))) {
+                continue;
+		}
             QString absoluteFilePath = dir.absolutePath() + QString::fromLatin1("/") + deviceFile;
             if (checkDeviceType(absoluteFilePath))
                 devices << absoluteFilePath;
         }
     }
-
-    // check for drm devices
-    if (m_types & Device_VideoMask) {
-        dir.setPath(QString::fromLatin1(QT_DRM_DEVICE_PATH));
-        foreach (const QString &deviceFile, dir.entryList()) {
-            QString absoluteFilePath = dir.absolutePath() + QString::fromLatin1("/") + deviceFile;
-            if (checkDeviceType(absoluteFilePath))
-                devices << absoluteFilePath;
-        }
-    }
-
     qCDebug(lcDD) << "Found matching devices" << devices;
 
     return devices;
@@ -141,9 +131,8 @@ QStringList QDeviceDiscoveryStatic::old_ScanConnectedDevices()
 
 QStringList QDeviceDiscoveryStatic::scanConnectedDevices()
 {
-    QStringList devices = old_ScanConnectedDevices();
-    m_Devices = devices;
-    return devices;
+    m_Devices = old_ScanConnectedDevices();
+    return m_Devices;
 }
 
 bool QDeviceDiscoveryStatic::checkDeviceType(const QString &device)
