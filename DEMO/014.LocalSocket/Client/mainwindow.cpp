@@ -1,4 +1,4 @@
-#include <QLocalSocket>
+﻿#include <QLocalSocket>
 #include <clyyconst.h>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     m_pLocalSocket->connectToServer(SERVERNAME);
     if (!m_pLocalSocket->waitForConnected()) {
+        ui->textEdit->append(m_pLocalSocket->errorString());
         qDebug() << "连接服务端失败";
     }
     connect(m_pLocalSocket, &QLocalSocket::readyRead, this, &MainWindow::readyRead);

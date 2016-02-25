@@ -11,7 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(m_pLocalServer, &QLocalServer::newConnection, this, &MainWindow::newConnection);
-    m_pLocalServer->listen(SERVERNAME);
+    m_pLocalServer->setSocketOptions(QLocalServer::WorldAccessOption);
+    if (m_pLocalServer->listen(SERVERNAME)) {
+        ui->textEdit->append(m_pLocalServer->errorString());
+    }
 }
 
 MainWindow::~MainWindow()
