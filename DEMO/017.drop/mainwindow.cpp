@@ -1,4 +1,4 @@
-#include <QMimeData>
+﻿#include <QMimeData>
 #include <QDrag>
 #include <QDebug>
 #include <QPainter>
@@ -34,6 +34,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         QMimeData *mimeData = new QMimeData;
         mimeData->setText("xxxx");
         drag->setMimeData(mimeData);
+        //QPixmap drag_img = QPixmap::grabWidget(ui->pushButton);//这句可以直接复制按钮的显示为图片
         QPixmap drag_img(120, 18);
         drag_img.fill(Qt::transparent);
         QPainter painter(&drag_img);
