@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1373447850 source:d:\cproj\except\main.cpp
+	<iostream>
+	<signal.h>
+	<setjmp.h>
+
