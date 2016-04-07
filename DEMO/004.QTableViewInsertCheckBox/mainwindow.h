@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QHeaderView>
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,21 @@ private:
     clyyModel *m_pModel;
     clyyDelegate *m_pDelegate;
 
+};
+
+class QCheckBox;
+
+class clyyHeaderView : public QHeaderView
+{
+    Q_OBJECT
+
+public:
+    explicit clyyHeaderView(Qt::Orientation orientation, QWidget *parent = 0);
+    ~clyyHeaderView();
+
+protected:
+    QCheckBox *m_pCheckBox;
+    void paintSection(QPainter *painter, const QRect &rect, int logicalIndex) const;
 };
 
 #endif // MAINWINDOW_H
