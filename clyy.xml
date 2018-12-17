@@ -19,10 +19,10 @@
   <style name="Type" foreground="#00ff00"/>
   <style name="Local" foreground="#ff5500"/>
   <style name="Global" foreground="#ff5500" italic="true"/>
-  <style name="Field" foreground="#55aaff"/>
+  <style name="Field" foreground="#00ffff"/>
   <style name="Static" foreground="#00ff00" italic="true"/>
-  <style name="VirtualMethod" foreground="#0055ff" italic="true"/>
-  <style name="Function" foreground="#0055ff"/>
+  <style name="VirtualMethod" foreground="#55aaff" italic="true"/>
+  <style name="Function" foreground="#55aaff"/>
   <style name="Keyword" foreground="#ffff55"/>
   <style name="PrimitiveType" foreground="#ffff00"/>
   <style name="Operator" foreground="#ffff55"/>
@@ -62,6 +62,6 @@
   <style name="Error" underlineColor="#ff0000" underlineStyle="SingleUnderline"/>
   <style name="ErrorContext" underlineColor="#ff0000" underlineStyle="DotLine"/>
   <style name="Declaration"/>
-  <style name="FunctionDefinition" foreground="#0055ff" background="#000000"/>
+  <style name="FunctionDefinition" foreground="#55aaff" background="#000000"/>
   <style name="OutputArgument" italic="true"/>
 </style-scheme>
